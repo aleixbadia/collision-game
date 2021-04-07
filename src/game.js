@@ -9,6 +9,8 @@ class Game {
     this.score = 0;
     this.livesElement = undefined;
     this.scoreElement = undefined;
+
+    this.framesCounter = 0;
   }
 
   // Create `ctx`, a `player` and start the Canvas loop
@@ -28,7 +30,7 @@ class Game {
     this.canvas.setAttribute("width", this.containerWidth);
     this.canvas.setAttribute("height", this.containerHeight);
 
-    this.player = new Player(this.canvas, 5);
+    this.player = new Player(this.canvas, 5, "/img/player.png");
 
     // addEventListener, al ser un método asíncrono, ejecuta su callback function en el scope de window.
     // para evitar perder la referéncia a "this", usamos una arrow function.
@@ -51,6 +53,7 @@ class Game {
   startLoop() {
     const loop = () => {
       //1. ACTUALIZAR los estados del jugador y los enemigos
+      this.framesCounter++;
       // -- 1.0 Nuestro jugador ya esta creado en la función start
       // -- 1.1 Crear enemigos en posiciones aleatorias con una frecuencia aleatoria
       if (this.enemies.length < 10) {
@@ -75,7 +78,7 @@ class Game {
       //2. LIMPIAR CANVAS
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       //3. DIBUJAR DE NUEVO EL CANVAS CON LAS POSICIONES ACTUALIZADAS EN EL PASO 1
-      this.player.draw();
+      this.player.draw(this.framesCounter);
       this.enemies.forEach((enemy) => {
         enemy.draw();
       });
